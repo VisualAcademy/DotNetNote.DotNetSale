@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using System.IO;
 
 namespace DotNetNote
 {
@@ -34,7 +37,8 @@ namespace DotNetNote
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -49,6 +53,13 @@ namespace DotNetNote
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //// 31.8.4. Serilog
+            //Log.Logger = new LoggerConfiguration()
+            //    .MinimumLevel.Debug()
+            //    .WriteTo.File(Path.Combine(env.ContentRootPath, "DnsLogs.txt"), rollingInterval: RollingInterval.Day)
+            //    .CreateLogger();
+            //loggerFactory.AddSerilog();
 
             app.UseRouting();
 
